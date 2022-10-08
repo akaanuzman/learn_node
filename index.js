@@ -12,7 +12,8 @@ const products = [
 
 /// Nodejs route struct
 app.get("/products/:id", (req, res) => {
-    res.render("product_details.ejs");
+    const product = products.find(element => element.id == req.params.id)
+    res.render("product_details.ejs",product);
 });
 
 app.get("/products", (req, res) => {
