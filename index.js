@@ -1,6 +1,23 @@
 const express = require("express")
+const mysql = require("mysql2")
 const app = express()
 const port = 5097
+
+let dbConnection = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "uzman4343",
+    database: "node_db"
+})
+
+dbConnection.connect(function(err){
+    if (err) {
+        console.error(err);
+    } else {
+        console.log("db connection was successful")
+    }
+})
+
 
 app.set("view engine", "ejs")
 app.use(express.static("public"))
