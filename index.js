@@ -1,16 +1,12 @@
 const express = require("express")
 const mysql = require("mysql2")
+const config = require("./config")
 const app = express()
 const port = 5097
 
-let dbConnection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "uzman4343",
-    database: "node_db"
-})
+let dbConnection = mysql.createConnection(config.db)
 
-dbConnection.connect(function(err){
+dbConnection.connect(function (err) {
     if (err) {
         console.error(err);
     } else {
