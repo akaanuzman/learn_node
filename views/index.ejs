@@ -10,79 +10,19 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg bg-light">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">E-commerce</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/products">Products</a>
-                    </li>
-                </ul>
+    <%- include("partials/navbar.ejs") %>
+        <h2 class="m-3">Home</h2>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <% products.forEach(product=> { %>
+                        <% if (product.isHome) { %>
+                            <%- include("partials/product.ejs",product) %>
+                                <% } %>
+                                    <% }) %>
+                </div>
             </div>
         </div>
-    </nav>
-    <h2 class="m-3">Home</h2>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <% products.forEach(product=> { %>
-                    <% if (product.isHome) { %>
-                        <div class="card mb-3">
-                            <div class="row">
-                                <div class="col-4">
-                                    <img src="/images/<%=product.image%> " alt="" class="img-fluid">
-                                </div>
-                                <div class="col-8">
-                                    <div class="card-body">
-                                        <a href="/products/<%=product.id%> ">
-                                            <h5 class="card-title">
-                                                Product: <%= product.name %>
-                                            </h5>
-                                        </a>
-                                        <p class="card-text">
-                                            Price: <%= product.price %>₺
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, a? Dicta
-                                            libero quibusdam amet similique iusto inventore aut labore molestias natus
-                                            cum explicabo odio unde, repellat sed in, nam perspiciatis fuga a ratione.
-                                            Quis, animi odit! Officia, odio soluta cupiditate nesciunt error sequi
-                                            tempore dolores, quia ea quas ipsa possimus! Perspiciatis nihil modi eum
-                                            facere deleniti totam, repellat mollitia, quos dicta iste quisquam fuga,
-                                            voluptatem a ipsam similique. Id quia beatae reprehenderit rerum dicta
-                                            nostrum saepe ullam, commodi maxime? Reiciendis nisi minima mollitia!
-                                            Quaerat, corporis excepturi tempora debitis minima similique voluptates quas
-                                            reprehenderit, labore earum amet? Expedita, dolore sunt? A!
-                                        </p>
-                                        <p>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, a? Dicta
-                                            libero quibusdam amet similique iusto inventore aut labore molestias natus
-                                            cum explicabo odio unde, repellat sed in, nam perspiciatis fuga a ratione.
-                                            Quis, animi odit! Officia, odio soluta cupiditate nesciunt error sequi
-                                            tempore dolores, quia ea quas ipsa possimus! Perspiciatis nihil modi eum
-                                            facere deleniti totam, repellat mollitia, quos dicta iste quisquam fuga,
-                                            voluptatem a ipsam similique. Id quia beatae reprehenderit rerum dicta
-                                            nostrum saepe ullam, commodi maxime? Reiciendis nisi minima mollitia!
-                                            Quaerat, corporis excepturi tempora debitis minima similique voluptates quas
-                                            reprehenderit, labore earum amet? Expedita, dolore sunt? A!
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <% } %>
-                            <% }) %>
-            </div>
-        </div>
-    </div>
 </body>
 
 </html>

@@ -10,54 +10,15 @@
 </head>
 
 <body>
-    <h2 class="m-3">Product Details</h2>
-    <div class="container mt-3">
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-3">
-                    <div class="row">
-                        <div class="col-4">
-                            <img src="/images/<%=image%> " alt="" class="img-fluid">
-                        </div>
-                        <div class="col-8">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                    Product: <%= name %>
-                                </h5>
-                                <p class="card-text">
-                                    Price: <%= price %>₺
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, a? Dicta
-                                    libero quibusdam amet similique iusto inventore aut labore molestias natus
-                                    cum explicabo odio unde, repellat sed in, nam perspiciatis fuga a ratione.
-                                    Quis, animi odit! Officia, odio soluta cupiditate nesciunt error sequi
-                                    tempore dolores, quia ea quas ipsa possimus! Perspiciatis nihil modi eum
-                                    facere deleniti totam, repellat mollitia, quos dicta iste quisquam fuga,
-                                    voluptatem a ipsam similique. Id quia beatae reprehenderit rerum dicta
-                                    nostrum saepe ullam, commodi maxime? Reiciendis nisi minima mollitia!
-                                    Quaerat, corporis excepturi tempora debitis minima similique voluptates quas
-                                    reprehenderit, labore earum amet? Expedita, dolore sunt? A!
-                                </p>
-                                <p>
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rerum, a? Dicta
-                                    libero quibusdam amet similique iusto inventore aut labore molestias natus
-                                    cum explicabo odio unde, repellat sed in, nam perspiciatis fuga a ratione.
-                                    Quis, animi odit! Officia, odio soluta cupiditate nesciunt error sequi
-                                    tempore dolores, quia ea quas ipsa possimus! Perspiciatis nihil modi eum
-                                    facere deleniti totam, repellat mollitia, quos dicta iste quisquam fuga,
-                                    voluptatem a ipsam similique. Id quia beatae reprehenderit rerum dicta
-                                    nostrum saepe ullam, commodi maxime? Reiciendis nisi minima mollitia!
-                                    Quaerat, corporis excepturi tempora debitis minima similique voluptates quas
-                                    reprehenderit, labore earum amet? Expedita, dolore sunt? A!
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+    <%- include("partials/navbar.ejs") %>
+        <h2 class="m-3">Product Details</h2>
+        <div class="container mt-3">
+            <div class="row">
+                <div class="col-12">
+                    <%- include("partials/product.ejs") %>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
