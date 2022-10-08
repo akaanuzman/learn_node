@@ -1,33 +1,11 @@
+const express = require("express");
+const app = express()
+const port = 5097
 
-var http = require("http");
-var fs = require("fs");
+app.get("/",(req,res) => {
+    res.send("<h1> Hello world </h1>");
+})
 
-var server = http.createServer((req, res) => {
-    switch (req.url) {
-        case "/":
-            readFile("views/index.html", res);
-            break;
-        case "/products":
-            readFile("views/products.html", res);
-            break;
-        default:
-            readFile("views/404.html", res);
-            break;
-    }
-});
-
-function readFile(path, res) {
-    fs.readFile(path, (err, html) => {
-        if (err) {
-            res.write("<h1>the page was crashed! </h1>");
-            res.end();
-        } else {
-            res.write(html);
-            res.end();
-        }
-    })
-}
-
-server.listen(5097, () => {
-    console.log("node.js server was opened at port 5097!");
-});
+app.listen(port,() => {
+    console.log(`Example app listening on port ${port}`)
+})
