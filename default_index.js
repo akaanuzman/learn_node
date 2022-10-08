@@ -28,6 +28,6 @@ function readFile(path, res) {
     })
 }
 
-server.listen(5097, () => {
-    console.log("node.js server was opened at port 5097!");
+server.listen(5096, () => {
+    console.log("node.js server was opened at port 5096!");
 });
