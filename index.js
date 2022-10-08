@@ -1,21 +1,30 @@
 
 var http = require("http");
+var fs = require("fs");
 
 var server = http.createServer((req, res) => {
     switch (req.url) {
-        case "/home":
-            res.write("<h1>home</h1>");
+        case "/":
+            fs.readFile("views/index.html", (err, html) => {
+                res.write(html);
+                res.end();
+            })
             break;
         case "/products":
-            res.write("<h1>products</h1>");
+            fs.readFile("views/products.html", (err, html) => {
+                res.write(html);
+                res.end();
+            })
             break;
         default:
-            res.write("<h1> the page is not fount </h1>");
+            fs.readFile("views/404.html", (err, html) => {
+                res.write(html);
+                res.end();
+            })
             break;
     }
-    res.end();
 });
 
-server.listen(5098, () => {
-    console.log("node.js server was opened at port 5098!");
+server.listen(5097, () => {
+    console.log("node.js server was opened at port 5097!");
 });
