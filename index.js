@@ -4,17 +4,15 @@ const port = 5097
 
 /// Nodejs route struct
 app.get("/products/:id", (req, res) => {
-    /// [If you wanna send params. You should use the code below.]
-    // res.send(req.params);
-    res.send(`<h1> Product Detail ${req.params.id} </h1>`);
+    res.render("product_details.ejs");
 });
 
 app.get("/products", (req, res) => {
-    res.send("<h1> Products </h1>");
+    res.render("products.ejs");
 });
 
 app.get("/", (req, res) => {
-    res.send("<h1> Hello world </h1>");
+    res.render("index.ejs")
 });
 
 app.listen(port, () => {
