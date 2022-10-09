@@ -39,11 +39,11 @@
                 <ul class="list-group">
                     <% tasks.forEach(task=> { %>
                         <li class="list-group-item d-flex justify-content-between">
-                            <%= task.todoName %> - <%= task.todoDescription %> - <%= task.createdTime %>
-                                        <a href="#" class="delete-item">
-                                            icon
-                                            <i class="fa-solid fa-xmark"></i>
-                                        </a>
+                            <%= task.todoName %> - <%= task.createdTime %>
+                                    <a href="#" class="delete-item">
+                                        icon
+                                        <i class="fa-solid fa-xmark"></i>
+                                    </a>
                         </li>
                         <% }) %>
                 </ul>
