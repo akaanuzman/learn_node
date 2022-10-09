@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" href="/fontawesome/css/brands.css">
+    <link rel="stylesheet" href="/fontawesome/css/solid.css">
+    <title>Home</title>
+</head>
+
+<body>
+    <div class="container" style="margin-top:20px;">
+        <div class="card row">
+            <div class="card-header">Todo List</div>
+            <div class="card-body">
+                <form id="todo-form" name="form">
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <input class="form-control" type="text" name="todo" id="todo" placeholder="Enter a todo">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-danger mt-3">Add a todo</button>
+                </form>
+                <hr>
+            </div>
+            <div class="card-body">
+                <hr>
+                <h5 class="card-title" id="tasks-title">Todos</h5>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <input class="form-control" type="text" name="filter" id="filter" placeholder="Search a todo">
+                    </div>
+                </div>
+                <hr>
+                <ul class="list-group">
+                    <% tasks.forEach(task=> { %>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <%= task.todoName %> - <%= task.todoDescription %> - <%= task.createdTime %>
+                                        <a href="#" class="delete-item">
+                                            icon
+                                            <i class="fa-solid fa-xmark"></i>
+                                        </a>
+                        </li>
+
+                        <% }) %>
+                </ul>
+                <hr>
+                <a id="clear-todos" class="btn btn-dark" href="#">Delete all tasks</a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

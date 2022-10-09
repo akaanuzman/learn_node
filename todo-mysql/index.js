@@ -3,6 +3,10 @@ const app =  express()
 const port = 5096
 const routes = require("./routes/route")
 
+app.set("view engine","ejs")
+app.use(express.static("public"))
+app.use(express.static("node_modules"))
+app.use(express.static("fontawesome"))
 app.use(routes)
 
 app.listen(port,() => {
