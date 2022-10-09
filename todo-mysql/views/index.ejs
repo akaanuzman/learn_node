@@ -17,13 +17,14 @@
         <div class="card row">
             <div class="card-header">Todo List</div>
             <div class="card-body">
-                <form id="todo-form" name="form">
+                <form action="" id="todo-form" name="form" method="POST">
                     <div class="form-row">
                         <div class="form-group col-md-6">
-                            <input class="form-control" type="text" name="todo" id="todo" placeholder="Enter a todo">
+                            <input class="form-control" type="text" name="todoName" id="todoName"
+                                placeholder="Enter a todo">
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-danger mt-3">Add a todo</button>
+                    <input type="submit" class="btn btn-danger mt-3" value="Add Todo"/>
                 </form>
                 <hr>
             </div>
