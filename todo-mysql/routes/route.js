@@ -15,18 +15,12 @@ routes.post("/", (req, res) => {
     console.log(req.body)
 })
 
-routes.get("/deleteAllTasks", async (req, res) => {
-    try {
-        const query = "select * from Tasks where isActive = 1"
-        const [tasks,] = await db.execute(query)
-        tasks.forEach(async task => {
-            const query = "UPDATE `node_db`.`Tasks` SET `isActive` = '0' WHERE id=?"
-            await db.execute(query, [task.id])
-        });
-        fetchData(res)
-    } catch (error) {
-        console.error(error)
-    }
+routes.get("/deleteAllTasks", (req, res) => {
+    deleteAllTodos(res)
+})
+
+routes.get("/deleteTask/:id", async (req, res) => {
+    deleteTodo(req, res)
 })
 
 async function fetchData(res) {
@@ -45,6 +39,33 @@ async function addTodo(todoName, res) {
     try {
         const query = "INSERT INTO `node_db`.`Tasks` (`todoName`, `createdTime`, `isActive`) VALUES (?, NOW(), '1')"
         await db.execute(query, [todoName])
+        fetchData(res)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function deleteAllTodos(res) {
+    try {
+        const query = "select * from Tasks where isActive = 1"
+        const [tasks,] = await db.execute(query)
+        tasks.forEach(async task => {
+            const query = "UPDATE `node_db`.`Tasks` SET `isActive` = '0' WHERE id=?"
+            await db.execute(query, [task.id])
+        });
+        fetchData(res)
+    } catch (error) {
+        console.error(error)
+    }
+}
+
+async function deleteTodo(req, res) {
+    console.log("******* " + req.params.id)
+    try {
+        const query = "select * from Tasks where isActive = 1"
+        const [tasks,] = await db.execute(query)
+        const deleteQuery = "UPDATE `node_db`.`Tasks` SET `isActive` = '0' WHERE id=?"
+        await db.execute(deleteQuery, [req.params.id])
         fetchData(res)
     } catch (error) {
         console.error(error)

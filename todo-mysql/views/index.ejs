@@ -24,7 +24,7 @@
                                 placeholder="Enter a todo">
                         </div>
                     </div>
-                    <input type="submit" class="btn btn-danger mt-3" value="Add Todo"/>
+                    <input type="submit" class="btn btn-danger mt-3" value="Add Todo" />
                 </form>
                 <hr>
             </div>
@@ -41,7 +41,7 @@
                     <% tasks.forEach(task=> { %>
                         <li class="list-group-item d-flex justify-content-between">
                             <%= task.todoName %> - <%= task.createdTime %>
-                                    <a href="#" class="delete-item">
+                                    <a href="/deleteTask/<%= task.id %>" class="delete-item">
                                         icon
                                         <i class="fa-solid fa-xmark"></i>
                                     </a>
