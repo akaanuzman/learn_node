@@ -1,11 +1,12 @@
 const express = require("express")
 const routes = express.Router()
 const db = require("../data/db")
-
+const alert = require("alert")
 routes.use(express.json())
 routes.use(express.urlencoded())
 
 routes.get("/", (req, res) => {
+    console.log(res.query)
     fetchData(res)
 })
 
@@ -19,8 +20,13 @@ routes.get("/deleteAllTasks", (req, res) => {
     deleteAllTodos(res)
 })
 
-routes.get("/deleteTask/:id", async (req, res) => {
+routes.get("/deleteTask/:id", (req, res) => {
+    alert("merhaba")
     deleteTodo(req, res)
+})
+
+routes.get("/search",(req,res) => {
+
 })
 
 async function fetchData(res) {
@@ -30,6 +36,7 @@ async function fetchData(res) {
         res.render("index", {
             tasks: tasks,
         })
+        console.log(tasks)
     } catch (error) {
         console.error(error)
     }

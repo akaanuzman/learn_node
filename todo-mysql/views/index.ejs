@@ -13,6 +13,11 @@
 </head>
 
 <body>
+    <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-xmark"></i>
+    <i class="fa-solid fa-user-xmark"></i>
     <div class="container" style="margin-top:20px;">
         <div class="card row">
             <div class="card-header">Todo List</div>
@@ -42,8 +47,7 @@
                         <li class="list-group-item d-flex justify-content-between">
                             <%= task.todoName %> - <%= task.createdTime %>
                                     <a href="/deleteTask/<%= task.id %>" class="delete-item">
-                                        icon
-                                        <i class="fa-solid fa-xmark"></i>
+                                        <i class="fa-solid fa-xmark">delete</i>
                                     </a>
                         </li>
                         <% }) %>
