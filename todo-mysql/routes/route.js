@@ -15,9 +15,24 @@ routes.post("/", (req, res) => {
     console.log(req.body)
 })
 
+routes.get("/deleteAllTasks", async (req, res) => {
+    try {
+        const query = "select * from Tasks where isActive = 1"
+        const [tasks,] = await db.execute(query)
+        tasks.forEach(async task => {
+            const query = "UPDATE `node_db`.`Tasks` SET `isActive` = '0' WHERE id=?"
+            await db.execute(query, [task.id])
+        });
+        fetchData(res)
+    } catch (error) {
+        console.error(error)
+    }
+})
+
 async function fetchData(res) {
     try {
-        const [tasks,] = await db.execute("select * from Tasks where isActive = 1")
+        const query = "select * from Tasks where isActive = 1"
+        const [tasks,] = await db.execute(query)
         res.render("index", {
             tasks: tasks,
         })
@@ -35,6 +50,7 @@ async function addTodo(todoName, res) {
         console.error(error)
     }
 }
+
 
 function getDate(tasks) {
     var currentdate = new Date();
