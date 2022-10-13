@@ -1,12 +1,16 @@
-const dotenv = require("dotenv")
 const express = require("express")
+const dotenv = require("dotenv")
+const router = require("./src/routes/index")
+const connectDb = require("./src/db/db")
+
 const app = express()
+
 dotenv.config(
     {
         path: "./src/config/.env"
     }
 )
-const router = require("./src/routes/index")
+connectDb()
 const port = process.env.PORT || 3029
 
 // Router Middlewares
