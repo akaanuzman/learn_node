@@ -30,6 +30,8 @@ const users = [
     },
 ]
 
+app.use(express.json())
+
 /// Middlewares usage in general routes
 app.use(authControl, banControl)
 
@@ -49,9 +51,39 @@ app.get("/users/:id", (req, res) => {
     )
 })
 
+app.post("/addUser", (req, res) => {
+    const newUser = req.body
+    users.push(newUser)
+    res.json({
+        succes: true,
+        user: newUser
+    })
+})
+
+app.put("/updateUser/:id", (req, res) => {
+    let updatedUser = users.find(e => e.id == req.params.id)
+    updatedUser = req.body
+    res.json({
+        succes: true,
+        body: updatedUser
+    })
+})
+
+app.delete("/deleteUser/:id", (req, res) => {
+    for (let i = 0; i < users.length; i++) {
+        if (users[i].id == req.params.id) {
+            users.splice(i,1)
+        }
+    }
+    res.json({
+        succes: true,
+        body: users,
+    })
+})
+
 /// General error route
 app.get("*", (req, res) => {
-    res.json(
+    res.status(404).json(
         {
             message: "This page doesn't exist."
         }
