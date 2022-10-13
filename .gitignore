@@ -5,7 +5,7 @@ package.json
 
 # config
 config.js
-.env
+*.env
 
 # ----
 .DS_Store

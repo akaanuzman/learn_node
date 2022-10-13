@@ -7,7 +7,7 @@ const app = express()
 
 dotenv.config(
     {
-        path: "./src/config/.env"
+        path: "./src/config/config.env"
     }
 )
 connectDb()
