@@ -72,7 +72,7 @@ app.put("/updateUser/:id", (req, res) => {
 app.delete("/deleteUser/:id", (req, res) => {
     for (let i = 0; i < users.length; i++) {
         if (users[i].id == req.params.id) {
-            users.splice(i,1)
+            users.splice(i, 1)
         }
     }
     res.json({
