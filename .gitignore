@@ -1,4 +1,11 @@
+# npm
 node_modules
-config.js
 package-lock.json
 package.json
+
+# config
+config.js
+
+# ----
+.DS_Store
+

@@ -18,7 +18,7 @@
     <i class="fa-solid fa-xmark"></i>
     <i class="fa-solid fa-xmark"></i>
     <i class="fa-solid fa-user-xmark"></i>
-    <div class="container" style="margin-top:20px;">
+    <div class="container" style="margin-top:16px;">
         <div class="card row">
             <div class="card-header">Todo List</div>
             <div class="card-body">
@@ -31,16 +31,10 @@
                     </div>
                     <input type="submit" class="btn btn-danger mt-3" value="Add Todo" />
                 </form>
-                <hr>
             </div>
             <div class="card-body">
                 <hr>
                 <h5 class="card-title" id="tasks-title">Todos</h5>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <input class="form-control" type="text" name="filter" id="filter" placeholder="Search a todo">
-                    </div>
-                </div>
                 <hr>
                 <ul class="list-group">
                     <% tasks.forEach(task=> { %>

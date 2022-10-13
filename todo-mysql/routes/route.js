@@ -1,7 +1,6 @@
 const express = require("express")
 const routes = express.Router()
-const db = require("../data/db")
-const alert = require("alert")
+const db = require("../db/db")
 routes.use(express.json())
 routes.use(express.urlencoded())
 
@@ -21,7 +20,6 @@ routes.get("/deleteAllTasks", (req, res) => {
 })
 
 routes.get("/deleteTask/:id", (req, res) => {
-    alert("merhaba")
     deleteTodo(req, res)
 })
 
