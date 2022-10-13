@@ -1,6 +1,7 @@
 const express = require("express")
 const app = express()
 const port = process.env.PORT || 4041
+const { authControl, banControl, homeControl } = require("./src/middlewares/middleware")
 
 const users = [
     {
@@ -29,16 +30,12 @@ const users = [
     },
 ]
 
-/// General error route
-app.get("*", (req,res) => {
-    res.json(
-        {
-            message: "This page doesn't exist."
-        }
-    )
-})
+/// Middlewares usage in general routes
+app.use(authControl, banControl)
 
-app.get("/", (req,res) => {
+
+/// Middlewares usage in only a route
+app.get("/", homeControl, (req, res) => {
     res.send("hello world")
 })
 
@@ -46,9 +43,18 @@ app.get("/users", (req, res) => {
     res.json(users)
 })
 
-app.get("/users/:id", (req,res) => {
+app.get("/users/:id", (req, res) => {
     res.json(
         users.find(e => e.id == req.params.id)
+    )
+})
+
+/// General error route
+app.get("*", (req, res) => {
+    res.json(
+        {
+            message: "This page doesn't exist."
+        }
     )
 })
 
