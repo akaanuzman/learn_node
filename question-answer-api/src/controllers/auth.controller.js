@@ -4,9 +4,11 @@ const asyncErrorHandler = require("express-async-handler")
 const register = asyncErrorHandler(async (req, res) => {
 
     const user = await User.create(req.body)
+    const token = user.generateJwtFromUser()
     res.json({
         success: true,
-        body: user
+        token: token,
+        body: user,
     })
 })
 
