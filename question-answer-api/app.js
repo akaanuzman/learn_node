@@ -1,7 +1,8 @@
 const express = require("express")
 const dotenv = require("dotenv")
 const router = require("./src/routes/index")
-const connectDb = require("./src/db/db")
+const connectDb = require("./src/helpers/db/db")
+const { errorHandler } = require("./src/middlewares/error.handler")
 
 const app = express()
 
@@ -16,9 +17,7 @@ const port = process.env.PORT || 3029
 // Router Middlewares
 app.use("/api", router)
 
-app.get("/", (req, res) => {
-    res.send("hello world")
-})
+app.use(errorHandler)
 
 app.get("*", (req, res) => {
     res.status(404).json(
