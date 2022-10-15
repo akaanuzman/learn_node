@@ -14,6 +14,9 @@ dotenv.config(
 connectDb()
 const port = process.env.PORT || 3029
 
+// Express - Body Middleware
+app.use(express.json())
+
 // Router Middlewares
 app.use("/api", router)
 

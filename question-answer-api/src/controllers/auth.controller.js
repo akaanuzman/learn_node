@@ -1,26 +1,14 @@
 const User = require("../models/user.model")
+const asyncErrorHandler = require("express-async-handler")
 
-const register = async (req, res, next) => {
-    const name = "Alperen"
-    const lastname = "Akarslan"
-    const email = "alperenakarslaan@gmail.com"
-    const password = "123"
+const register = asyncErrorHandler(async (req, res) => {
 
-    try {
-        const user = await User.create({
-            name,
-            lastname,
-            email,
-            password
-        })
-        res.json({
-            success: true,
-            body: user
-        })
-    } catch (err) {
-        return next(err)
-    }
-}
+    const user = await User.create(req.body)
+    res.json({
+        success: true,
+        body: user
+    })
+})
 
 const login = (req, res, next) => {
     res.json(

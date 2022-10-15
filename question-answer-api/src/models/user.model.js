@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const bcrypt = require('bcryptjs');
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -13,7 +14,7 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true,
+        required: [true, "Please provide a email"],
         unique: [true, "Please try different email"],
         match: [
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
@@ -62,4 +63,16 @@ const UserSchema = new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("User",UserSchema)
+UserSchema.pre("save", function (next) {
+    // password is change?
+    if (!this.isModified("password")) next()
+
+    // if password is not change, password is hashed
+    bcrypt.genSalt(10, (err, hash) => {
+        if(err) next(err)
+        this.password = hash
+        next()
+    })
+})
+
+module.exports = mongoose.model("User", UserSchema)
