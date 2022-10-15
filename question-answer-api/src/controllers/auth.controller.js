@@ -21,7 +21,11 @@ const login = (req, res, next) => {
 }
 
 const error = (req, res, next) => {
-    throw new Error("This is a error")
+    res.json(
+        {
+            message: "ERROR"
+        }
+    )
 }
 
 module.exports = { register, login, error }
