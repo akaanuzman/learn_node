@@ -77,13 +77,18 @@ UserSchema.methods.generateJwtFromUser = function () {
 
 UserSchema.pre("save", function (next) {
     // password is change?
-    if (!this.isModified("password")) next()
+    if (!this.isModified("password")) {
+        next()
+    }
 
     // if password is not change, password is hashed
-    bcrypt.genSalt(10, (err, hash) => {
+    bcrypt.genSalt(10, (err, salt) => {
         if (err) next(err)
-        this.password = hash
-        next()
+        bcrypt.hash(this.password, salt, (err, hash) => {
+            if (err) next(err)
+            this.password = hash
+            next()
+        })
     })
 })
 
