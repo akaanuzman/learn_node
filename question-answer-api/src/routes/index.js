@@ -6,5 +6,4 @@ const questions = require("./questions")
 router.use("/auth", auth)
 router.use("/questions", questions)
 
-
 module.exports = router

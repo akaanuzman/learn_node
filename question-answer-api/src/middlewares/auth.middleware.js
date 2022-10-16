@@ -15,6 +15,10 @@ const getAccessToRoute = (req, res, next) => {
         if (err) {
             return next(unAuthorizedError)
         }
+        req.user = {
+            id: decoded.id,
+            name: decoded.name
+        }
         next()
     })
 }

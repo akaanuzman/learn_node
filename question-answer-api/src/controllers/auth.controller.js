@@ -18,7 +18,6 @@ const login = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body
     validateUserInput(email, password, next)
     const user = await User.findOne({ email }).select("+password")
-    console.log(comparePassword(password, user.password))
     if (!comparePassword(password, user.password)) {
         return next(new CustomError("Invalid password.", 400))
     }
@@ -30,12 +29,20 @@ const login = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
-const error = (req, res, next) => {
+const tokenControl = (req, res, next) => {
     res.json(
         {
-            message: "ERROR"
+            success: true
         }
     )
 }
 
-module.exports = { register, login, error }
+const imageUpload = asyncErrorHandler(async (req, res, next) => {
+    res.status(200).json({
+        success: true,
+        message: "Image Upload Successful",
+        image: req.body.profile_image
+    })
+})
+
+module.exports = { register, login, tokenControl, imageUpload }

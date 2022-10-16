@@ -3,7 +3,7 @@ const dotenv = require("dotenv")
 const router = require("./src/routes/index")
 const connectDb = require("./src/helpers/db/db")
 const { errorHandler } = require("./src/middlewares/error.handler")
-
+const path = require("path")
 const app = express()
 
 dotenv.config(
@@ -19,6 +19,8 @@ app.use(express.json())
 
 // Router Middlewares
 app.use("/api", router)
+
+app.use(express.static(path.join(__dirname,"public")))
 
 app.use(errorHandler)
 
