@@ -38,10 +38,15 @@ const tokenControl = (req, res, next) => {
 }
 
 const imageUpload = asyncErrorHandler(async (req, res, next) => {
+
+    const user = await User.findByIdAndUpdate(req.user.id, {
+        "img": req.savedProfileImage
+    }, { new: true, runValidators: true})
+
     res.status(200).json({
         success: true,
         message: "Image Upload Successful",
-        image: req.body.profile_image
+        user: user
     })
 })
 
