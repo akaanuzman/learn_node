@@ -1,6 +1,7 @@
 const User = require("../models/user.model")
 const asyncErrorHandler = require("express-async-handler")
 const { validateUserInput, comparePassword } = require("../helpers/input/input.helper")
+const sendMail = require("../helpers/libraries/sendEmail")
 const CustomError = require("../helpers/error/CustomError")
 
 const register = asyncErrorHandler(async (req, res) => {
@@ -40,25 +41,47 @@ const tokenControl = (req, res, next) => {
 const forgotPassword = asyncErrorHandler(async (req, res, next) => {
 
     const resetEmail = req.body.email
-    const user = await User.findOne({email: resetEmail})
+    const user = await User.findOne({ email: resetEmail })
     if (!user) {
-        return next(new CustomError("There is no user with that email",400))
+        return next(new CustomError("There is no user with that email", 400))
     }
     const resetPasswordToken = user.getResetPasswordTokenFromUser()
     await user.save()
-    res.json(
-        {
-            success: true,
-            message: "Token sent to ur email"
-        }
-    )
+    const resetPasswordUrl = `http://127.0.0.1:3030/api/auth/resetPassword?resetPasswordToken=${resetPasswordToken}`
+    const emailTemplate = `
+    <h3> Reset Your Password </h3>
+    <p> This <a href='${resetPasswordUrl}' target = '_blank'> link </a> will expire in 1 hour. </p>
+    `
+
+    try {
+        await sendMail({
+            from: process.env.SMTP_USER,
+            to: resetEmail,
+            subject: "Reset ur password.",
+            html: emailTemplate
+        })
+
+        res.status(200).json(
+            {
+                success: true,
+                message: "Token sent to ur email"
+            }
+        )
+    } catch (err) {
+        user.resetPasswordToken = undefined
+        user.resetPasswordExpire = undefined
+        await user.save()
+
+        return next(new CustomError("Email could not be sent", 500))
+    }
+
 })
 
 const imageUpload = asyncErrorHandler(async (req, res, next) => {
 
     const user = await User.findByIdAndUpdate(req.user.id, {
         "img": req.savedProfileImage
-    }, { new: true, runValidators: true})
+    }, { new: true, runValidators: true })
 
     res.status(200).json({
         success: true,
@@ -67,4 +90,4 @@ const imageUpload = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
-module.exports = { register, login, tokenControl, forgotPassword ,imageUpload }
+module.exports = { register, login, tokenControl, forgotPassword, imageUpload }

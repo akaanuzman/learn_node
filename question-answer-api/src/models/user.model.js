@@ -21,7 +21,6 @@ const UserSchema = new mongoose.Schema({
             /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
             "Please provide a valid email"
         ],
-
     },
     role: {
         type: String,
@@ -77,7 +76,6 @@ UserSchema.methods.generateJwtFromUser = function () {
         name: this.name
     }
     const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: JWT_EXPIRE })
-
     return token
 }
 
@@ -90,6 +88,7 @@ UserSchema.methods.getResetPasswordTokenFromUser = function () {
     const { RESET_PASSWORD_EXPIRE } = process.env
     this.resetPasswordToken = resetPasswordToken
     this.resetPasswordExpire = Date.now() + parseInt(RESET_PASSWORD_EXPIRE)
+    return resetPasswordToken
 }
 
 UserSchema.pre("save", function (next) {
