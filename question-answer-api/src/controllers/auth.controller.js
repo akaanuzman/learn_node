@@ -60,7 +60,6 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
             subject: "Reset ur password.",
             html: emailTemplate
         })
-
         res.status(200).json(
             {
                 success: true,
@@ -77,6 +76,34 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
 
 })
 
+const resetPassword = asyncErrorHandler(async (req, res, next) => {
+
+    const { resetPasswordToken } = req.query
+    const { password } = req.body
+
+    if (!resetPasswordToken) {
+        return next(new CustomError("Please provide a valid token", 400))
+    }
+    let user = await User.findOne({
+        resetPasswordToken: resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    })
+
+    user.password = password
+    user.resetPasswordExpire = undefined
+    user.resetPasswordToken = undefined
+
+    await user.save()
+
+    return res.status(200).json(
+        {
+            success: true,
+            message: "Reset password process successful",
+            user: user
+        }
+    )
+})
+
 const imageUpload = asyncErrorHandler(async (req, res, next) => {
 
     const user = await User.findByIdAndUpdate(req.user.id, {
@@ -90,4 +117,8 @@ const imageUpload = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
-module.exports = { register, login, tokenControl, forgotPassword, imageUpload }
+module.exports = {
+    register, login,
+    tokenControl, forgotPassword,
+    resetPassword, imageUpload
+}
