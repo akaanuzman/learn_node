@@ -1,9 +1,9 @@
 const express = require("express")
 const router = express.Router()
+const { getAccessToRoute } = require("../middlewares/auth.middleware")
+const { addQuestion, onDelete, onUpdate } = require("../controllers/quesitons.controller")
 
-const { home, onDelete, onUpdate } = require("../controllers/quesitons.controller")
-
-router.get("/", home)
+router.post("/ask", getAccessToRoute ,addQuestion)
 
 router.delete("/delete", onDelete)
 

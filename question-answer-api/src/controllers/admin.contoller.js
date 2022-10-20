@@ -20,7 +20,7 @@ const deleteUser = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
     const user = await User.findById({ _id: id })
 
-    user.isActive = true
+    user.isActive = false
     await user.save()
     return res.status(200)
         .json({
