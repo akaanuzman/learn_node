@@ -11,6 +11,14 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
+const getQuestion = asyncErrorHandler(async (req, res, next) => {
+    return res.status(200)
+        .json({
+            success: true,
+            question: req.question
+        })
+})
+
 const addQuestion = asyncErrorHandler(async (req, res, next) => {
     const params = req.body
     const question = await Question.create({
@@ -25,4 +33,4 @@ const addQuestion = asyncErrorHandler(async (req, res, next) => {
 })
 
 
-module.exports = { getAllQuestions, addQuestion }
+module.exports = { getAllQuestions, getQuestion, addQuestion }
