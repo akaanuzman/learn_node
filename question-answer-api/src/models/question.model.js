@@ -1,17 +1,17 @@
 const mongoose = require("mongoose")
-
+const slugify = require("slugify")
 
 const QuesitonSchema = new mongoose.Schema({
     title: {
         type: String,
         required: [true, "Please provide a title"],
-        minlength: [20, "Please provide a title at least 20 characters"],
+        minlength: [10, "Please provide a title at least 10 characters"],
         unique: true,
     },
     subtitle: {
         type: String,
         required: [true, "Please provide a subtitle"],
-        minlength: [60, "Please provide a subtitle at least 60 characters"],
+        minlength: [10, "Please provide a subtitle at least 10 characters"],
     },
     slug: String,
     createdAt: {
@@ -25,8 +25,26 @@ const QuesitonSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.ObjectId,
         required: true,
-        ref: "User"
+        ref: "User",
     }
 })
+
+QuesitonSchema.pre("save", function (next) {
+    console.log("helo")
+    if (!this.isModified("title")) {
+        next()
+    }
+    this.slug = this.createSlugify()
+    next()
+})
+
+QuesitonSchema.methods.createSlugify = function () {
+    return slugify(this.title, {
+        replacement: "-",
+        remove: /[*+~.()'"!:@]/g,
+        lower: true,
+        trim: true,
+    })
+}
 
 module.exports = mongoose.model("Question", QuesitonSchema)

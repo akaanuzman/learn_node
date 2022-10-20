@@ -2,8 +2,17 @@ const Question = require("../models/question.model")
 const CustomError = require("../helpers/error/CustomError")
 const asyncErrorHandler = require("express-async-handler")
 
+const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
+    const quesitons = await Question.find()
+    return res.status(200)
+        .json({
+            success: true,
+            quesitons: quesitons
+        })
+})
+
 const addQuestion = asyncErrorHandler(async (req, res, next) => {
-    const params  = req.body
+    const params = req.body
     const question = await Question.create({
         ...params,
         user: req.user.id,
@@ -15,22 +24,5 @@ const addQuestion = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
-const onDelete = (req, res, next) => {
-    res.json(
-        {
-            success: true,
-            message: "Questions were deleted!"
-        }
-    )
-}
 
-const onUpdate = (req, res, next) => {
-    res.json(
-        {
-            success: true,
-            message: "Question was updated!"
-        }
-    )
-}
-
-module.exports = { addQuestion, onDelete, onUpdate }
+module.exports = { getAllQuestions, addQuestion }
