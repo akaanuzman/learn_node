@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken")
 const { isTokenIncluded, getAccessTokenFromHeader } = require("../helpers/auth/auth.helper")
 const asyncErrorHandler = require("express-async-handler")
 const User = require("../models/user.model")
+const Question = require("../models/question.model")
 
 const getAccessToRoute = (req, res, next) => {
     const unAuthorizedError = new CustomError("No token provided", 401)
@@ -35,4 +36,16 @@ const getAdminAccess = asyncErrorHandler(async (req, res, next) => {
     next()
 })
 
-module.exports = { getAccessToRoute, getAdminAccess }
+const getQuestionOwnerAccess = asyncErrorHandler(async (req, res, next) => {
+    const userId = req.user.id
+    const { id } = req.params
+    const question = await Question.findById({ _id: id })
+
+    if (question.user != userId) {
+        return next(new CustomError("Only owner can handle this operation", 403))
+    }
+    req.question = question
+    next()
+})
+
+module.exports = { getAccessToRoute, getAdminAccess, getQuestionOwnerAccess }

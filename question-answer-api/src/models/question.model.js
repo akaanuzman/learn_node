@@ -30,7 +30,6 @@ const QuesitonSchema = new mongoose.Schema({
 })
 
 QuesitonSchema.pre("save", function (next) {
-    console.log("helo")
     if (!this.isModified("title")) {
         next()
     }

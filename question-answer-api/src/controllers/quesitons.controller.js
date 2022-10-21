@@ -32,5 +32,23 @@ const addQuestion = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
+const updateQuestion = asyncErrorHandler(async (req, res, next) => {
+    const params = req.body
+    const question = req.question
+    let updatedQuestion = await Question.findByIdAndUpdate(question.id, {
+        ...params
+    }, { new: true, runValidators: true })
 
-module.exports = { getAllQuestions, getQuestion, addQuestion }
+    updatedQuestion =  await updatedQuestion.save()
+
+    return res.status(200).json({
+        success: true,
+        question: updatedQuestion,
+    })
+})
+
+
+module.exports = {
+    getAllQuestions, getQuestion,
+    addQuestion, updateQuestion
+}

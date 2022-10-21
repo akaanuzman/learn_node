@@ -23,7 +23,6 @@ const editProfile = asyncErrorHandler(async (req, res, next) => {
     const body = req.body
     const user = await User.findByIdAndUpdate(req.user.id, body,
         { new: true, runValidators: true })
-
     return res.status(200)
         .json({
             succes: true,
