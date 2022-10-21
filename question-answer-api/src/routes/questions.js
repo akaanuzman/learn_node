@@ -8,6 +8,7 @@ const {
     deleteQuestion, favQuestion,
     unFavQuestion
 } = require("../controllers/quesitons.controller")
+const answer = require("../routes/answer")
 
 router.use(getAccessToRoute)
 router.get("/allQuestions", getAllQuestions)
@@ -34,5 +35,6 @@ router.get("/unFavQuestion/:id",
         getQuestionOwnerAccess],
     unFavQuestion
 )
+router.use("/:id/answers",checkQuesitonExist,answer)
 
 module.exports = router

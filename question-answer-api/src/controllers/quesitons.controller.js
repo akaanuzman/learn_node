@@ -87,8 +87,6 @@ const unFavQuestion = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
-
-
 module.exports = {
     getAllQuestions, getQuestion,
     addQuestion, updateQuestion,

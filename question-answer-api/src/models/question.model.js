@@ -32,6 +32,12 @@ const QuesitonSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "User"
         }
+    ],
+    answer: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Answer"
+        }
     ]
 })
 
