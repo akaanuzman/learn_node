@@ -39,16 +39,33 @@ const updateQuestion = asyncErrorHandler(async (req, res, next) => {
         ...params
     }, { new: true, runValidators: true })
 
-    updatedQuestion =  await updatedQuestion.save()
+    updatedQuestion = await updatedQuestion.save()
 
-    return res.status(200).json({
-        success: true,
-        question: updatedQuestion,
-    })
+    return res.status(200)
+        .json({
+            success: true,
+            question: updatedQuestion,
+        })
+})
+
+const deleteQuestion = asyncErrorHandler(async (req, res, next) => {
+    const question = req.question
+    const deletedQuestion = await Question.findById({ _id: question.id })
+    deletedQuestion.isActive = false
+
+    await deletedQuestion.save()
+
+    return res.status(200)
+        .json({
+            success: true,
+            deletedQuestion: deletedQuestion
+        })
+
 })
 
 
 module.exports = {
     getAllQuestions, getQuestion,
-    addQuestion, updateQuestion
+    addQuestion, updateQuestion,
+    deleteQuestion
 }

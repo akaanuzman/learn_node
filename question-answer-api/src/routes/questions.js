@@ -4,7 +4,8 @@ const { getAccessToRoute, getQuestionOwnerAccess } = require("../middlewares/aut
 const { checkQuesitonExist } = require("../helpers/db/db.error.helpers")
 const {
     getAllQuestions, getQuestion,
-    addQuestion, updateQuestion
+    addQuestion, updateQuestion,
+    deleteQuestion
 } = require("../controllers/quesitons.controller")
 
 router.use(getAccessToRoute)
@@ -13,9 +14,14 @@ router.get("/getQuestion/:id", checkQuesitonExist, getQuestion)
 router.post("/ask", addQuestion)
 router.put(
     "/updateQuestion/:id",
-    checkQuesitonExist,
-    getQuestionOwnerAccess,
+    [checkQuesitonExist,
+        getQuestionOwnerAccess],
     updateQuestion
+)
+router.delete("/deleteQuestion/:id",
+    [checkQuesitonExist,
+        getQuestionOwnerAccess],
+    deleteQuestion
 )
 
 module.exports = router

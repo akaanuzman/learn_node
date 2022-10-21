@@ -2,6 +2,8 @@ const mongoose = require("mongoose")
 const bcrypt = require('bcryptjs');
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
+const Question = require("../models/question.model")
+
 const UserSchema = new mongoose.Schema({
     name: {
         type: String,
@@ -106,6 +108,18 @@ UserSchema.pre("save", function (next) {
             next()
         })
     })
+})
+
+UserSchema.pre("validate", async function (next) {
+    if (!this.isModified("isActive")) {
+        next()
+    }
+    const questions = await Question.find({ user: this._id })
+    questions.forEach(async question => {
+        question.isActive = false
+        await question.save()
+    });
+    next()
 })
 
 module.exports = mongoose.model("User", UserSchema)
