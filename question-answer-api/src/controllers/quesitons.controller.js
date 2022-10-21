@@ -50,22 +50,48 @@ const updateQuestion = asyncErrorHandler(async (req, res, next) => {
 
 const deleteQuestion = asyncErrorHandler(async (req, res, next) => {
     const question = req.question
-    const deletedQuestion = await Question.findById({ _id: question.id })
-    deletedQuestion.isActive = false
+    question.isActive = false
 
-    await deletedQuestion.save()
+    await question.save()
 
     return res.status(200)
         .json({
             success: true,
-            deletedQuestion: deletedQuestion
+            deletedQuestion: question
         })
-
 })
+
+const favQuestion = asyncErrorHandler(async (req, res, next) => {
+    const question = req.question
+    if (question.fav.includes(req.user.id)) {
+        return next(new CustomError("You already fav this question", 400))
+    }
+    question.fav.push(req.user.id)
+    await question.save()
+    return res.status(200).json({
+        success: true,
+        question: question
+    })
+})
+
+const unFavQuestion = asyncErrorHandler(async (req, res, next) => {
+    let question = req.question
+    if (!question.fav.includes(req.user.id)) {
+        return next(new CustomError("You already unfav this question", 400))
+    }
+    question.fav = question.fav.filter(e => !question.fav.includes(e))
+    await question.save()
+    return res.status(200).json({
+        success: true,
+        question: question
+    })
+})
+
 
 
 module.exports = {
     getAllQuestions, getQuestion,
     addQuestion, updateQuestion,
-    deleteQuestion
+    deleteQuestion, favQuestion,
+    unFavQuestion
 }

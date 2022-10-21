@@ -26,7 +26,13 @@ const QuesitonSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         required: true,
         ref: "User",
-    }
+    },
+    fav: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "User"
+        }
+    ]
 })
 
 QuesitonSchema.pre("save", function (next) {

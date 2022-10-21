@@ -5,7 +5,8 @@ const { checkQuesitonExist } = require("../helpers/db/db.error.helpers")
 const {
     getAllQuestions, getQuestion,
     addQuestion, updateQuestion,
-    deleteQuestion
+    deleteQuestion, favQuestion,
+    unFavQuestion
 } = require("../controllers/quesitons.controller")
 
 router.use(getAccessToRoute)
@@ -22,6 +23,16 @@ router.delete("/deleteQuestion/:id",
     [checkQuesitonExist,
         getQuestionOwnerAccess],
     deleteQuestion
+)
+router.get("/favQuestion/:id",
+    [checkQuesitonExist,
+        getQuestionOwnerAccess],
+    favQuestion
+)
+router.get("/unFavQuestion/:id",
+    [checkQuesitonExist,
+        getQuestionOwnerAccess],
+    unFavQuestion
 )
 
 module.exports = router
