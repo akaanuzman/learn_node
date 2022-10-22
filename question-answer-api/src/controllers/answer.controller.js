@@ -40,4 +40,37 @@ const addNewAnswerToQuestion = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
-module.exports = { getAllAnswers, getAnswerById, addNewAnswerToQuestion }
+const updateAnswer = asyncErrorHandler(async (req, res, next) => {
+    const id = req.params.answerId
+    const body = req.body
+    const answer = await Answer.findByIdAndUpdate(
+        { _id: id },
+        { ...body },
+        { new: true, runValidators: true }
+    )
+
+    res.status(200)
+        .json({
+            success: true,
+            updatedAnswer: answer
+        })
+})
+
+const deleteAnswer = asyncErrorHandler(async (req, res, next) => {
+    const id = req.params.answerId
+    const answer = await Answer.findById({ _id: id })
+    answer.isActive = false
+    await answer.save()
+
+    res.status(200)
+        .json({
+            success: true,
+            message: "This answer is deleted"
+        })
+})
+
+module.exports = {
+    getAllAnswers, getAnswerById,
+    addNewAnswerToQuestion, updateAnswer,
+    deleteAnswer
+}

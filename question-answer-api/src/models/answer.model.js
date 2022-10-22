@@ -27,13 +27,15 @@ const AnswerSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "Question",
         required: true
+    },
+    isActive: {
+        type: Boolean,
+        default: true,
     }
 })
 
 AnswerSchema.pre("save", async function (next) {
-    if (!this.isModified("user")) {
-        next()
-    }
+    if (!this.isModified("user")) return next()
 
     try {
         const question = await Question.findById({ _id: this.question })

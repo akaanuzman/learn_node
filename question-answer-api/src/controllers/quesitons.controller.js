@@ -4,6 +4,17 @@ const asyncErrorHandler = require("express-async-handler")
 
 const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
     const quesitons = await Question.find()
+        .populate(
+            {
+                path: "user",
+                select: "id name lastname"
+            }
+        ).populate(
+            {
+                path: "answer",
+            }
+        )
+
     return res.status(200)
         .json({
             success: true,
@@ -37,7 +48,16 @@ const updateQuestion = asyncErrorHandler(async (req, res, next) => {
     const question = req.question
     let updatedQuestion = await Question.findByIdAndUpdate(question.id, {
         ...params
-    }, { new: true, runValidators: true })
+    }, { new: true, runValidators: true }).populate(
+        {
+            path: "user",
+            select: "id name lastname"
+        }
+    ).populate(
+        {
+            path: "answer",
+        }
+    )
 
     updatedQuestion = await updatedQuestion.save()
 

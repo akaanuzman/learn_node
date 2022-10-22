@@ -27,7 +27,6 @@ const checkQuesitonExist = asyncErrorHandler(async (req, res, next) => {
 const checkAnswerExist = asyncErrorHandler(async (req, res, next) => {
     const { answerId } = req.params
     const questionId = req.question._id
-    console.log(questionId + "******" + answerId)
     const answer = await Answer.findOne({
         _id: answerId,
         question: questionId
