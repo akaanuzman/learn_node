@@ -38,7 +38,11 @@ const QuesitonSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "Answer"
         }
-    ]
+    ],
+    isActive: {
+        type: Boolean,
+        default: true
+    }
 })
 
 QuesitonSchema.pre("save", function (next) {
