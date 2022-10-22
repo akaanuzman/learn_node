@@ -69,8 +69,37 @@ const deleteAnswer = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
+const favAnswer = asyncErrorHandler(async (req, res, next) => {
+    const answer = req.answer
+    if (answer.fav.includes(req.user.id)) {
+        return next(new CustomError("You already fav this answer", 400))
+    }
+    answer.fav.push(req.user.id)
+    await answer.save()
+    return res.status(200)
+        .json({
+            success: true,
+            answer: answer
+        })
+})
+
+const unFavAnswer = asyncErrorHandler(async (req, res, next) => {
+    const answer = req.answer
+    if (!answer.fav.includes(req.user.id)) {
+        return next(new CustomError("You already unfav this answer", 400))
+    }
+    answer.fav = answer.fav.filter(e => !answer.fav.includes(e))
+    await answer.save()
+    res.status(200)
+        .json({
+            success: true,
+            answer: answer
+        })
+})
+
 module.exports = {
     getAllAnswers, getAnswerById,
     addNewAnswerToQuestion, updateAnswer,
-    deleteAnswer
+    deleteAnswer, favAnswer,
+    unFavAnswer
 }

@@ -1,6 +1,5 @@
 const mongoose = require("mongoose")
 const Question = require("../models/question.model")
-const asyncErrorHandler = require("express-async-handler")
 
 const AnswerSchema = new mongoose.Schema({
     content: {
@@ -12,7 +11,7 @@ const AnswerSchema = new mongoose.Schema({
         type: Date,
         default: Date.now()
     },
-    likes: [
+    fav: [
         {
             type: mongoose.Schema.ObjectId,
             ref: "User"

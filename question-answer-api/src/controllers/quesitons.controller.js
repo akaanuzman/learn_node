@@ -88,10 +88,11 @@ const favQuestion = asyncErrorHandler(async (req, res, next) => {
     }
     question.fav.push(req.user.id)
     await question.save()
-    return res.status(200).json({
-        success: true,
-        question: question
-    })
+    return res.status(200)
+        .json({
+            success: true,
+            question: question
+        })
 })
 
 const unFavQuestion = asyncErrorHandler(async (req, res, next) => {
@@ -101,10 +102,11 @@ const unFavQuestion = asyncErrorHandler(async (req, res, next) => {
     }
     question.fav = question.fav.filter(e => !question.fav.includes(e))
     await question.save()
-    return res.status(200).json({
-        success: true,
-        question: question
-    })
+    return res.status(200)
+        .json({
+            success: true,
+            question: question
+        })
 })
 
 module.exports = {
