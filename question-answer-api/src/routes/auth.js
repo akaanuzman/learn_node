@@ -19,7 +19,7 @@ router.post("/forgotPassword", forgotPassword)
 router.put("/resetPassword", resetPassword)
 
 router.post(
-    "/upload",
+    "/imageUpload",
     [getAccessToRoute, profileImageUpload.single("profile_image")],
     imageUpload
 )

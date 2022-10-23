@@ -26,7 +26,7 @@ const editProfile = asyncErrorHandler(async (req, res, next) => {
     return res.status(200)
         .json({
             succes: true,
-            newUser: body
+            updatedUser: user
         })
 })
 
