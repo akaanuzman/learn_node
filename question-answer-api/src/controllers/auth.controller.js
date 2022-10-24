@@ -19,12 +19,20 @@ const login = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body
     validateUserInput(email, password, next)
     const user = await User.findOne({ email }).select("+password")
+    if (!user) {
+        return next(new CustomError(
+            "Invalid email.\nPlease check email and try again.", 400)
+        )
+    }
     if (!comparePassword(password, user.password)) {
-        return next(new CustomError("Invalid password.", 400))
+        return next(new CustomError(
+            "Invalid password.\nPlease check password and try again.", 400)
+        )
     }
     const token = user.generateJwtFromUser()
     res.json({
         success: true,
+        message: "You logged in successful.",
         token: token,
         body: user
     })
