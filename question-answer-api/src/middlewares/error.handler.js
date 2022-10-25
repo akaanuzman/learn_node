@@ -11,7 +11,13 @@ const errorHandler = (err, req, res, next) => {
     }
     if (err.code == 11000) {
         // Duplicate Key error
-        customError = new CustomError("Duplicate Key Error",400)
+        if (err.message.includes("email")) {
+            customError = new CustomError("Your email address is used.\nPlease try again with other email.", 400)
+
+        } else {
+            customError = new CustomError("Duplicate Key Error", 400)
+
+        }
     }
 
     res.status(customError.status || 500).json(

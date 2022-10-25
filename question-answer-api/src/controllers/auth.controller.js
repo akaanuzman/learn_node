@@ -7,9 +7,13 @@ const CustomError = require("../helpers/error/CustomError")
 const register = asyncErrorHandler(async (req, res) => {
 
     const user = await User.create(req.body)
+    if (!user) {
+        return next(new CustomError(err.message,400))
+    }
     const token = user.generateJwtFromUser()
     res.json({
         success: true,
+        message: "You registered in successful",
         token: token,
         body: user,
     })
