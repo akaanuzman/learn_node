@@ -1,4 +1,5 @@
 const Question = require("../models/question.model")
+const User = require("../models/user.model")
 const CustomError = require("../helpers/error/CustomError")
 const asyncErrorHandler = require("express-async-handler")
 
@@ -7,26 +8,29 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
         .populate(
             {
                 path: "user",
-                select: "id name lastname"
+                select: "id name lastname question"
             }
         ).populate(
             {
                 path: "answer",
             }
+        ).populate(
+            {
+                path: "fav"
+            }
         )
     if (req.query.search) {
         const searchObject = {}
-        const regex = new RegExp(req.query.search,"i")
+        const regex = new RegExp(req.query.search, "i")
         searchObject["title"] = regex
         query = query.where(searchObject)
     }
 
-    const quesitons = await query
+    const questions = await query
 
     return res.status(200)
         .json({
-            success: true,
-            quesitons: quesitons
+            questions
         })
 })
 
@@ -44,6 +48,10 @@ const addQuestion = asyncErrorHandler(async (req, res, next) => {
         ...params,
         user: req.user.id,
     })
+    const user = await User.findById({_id: req.user.id})
+    user.question.push(question)
+    await user.save()
+    console.log(user)
     res.status(200)
         .json({
             success: true,

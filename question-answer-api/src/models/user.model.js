@@ -68,7 +68,13 @@ const UserSchema = new mongoose.Schema({
     },
     resetPasswordExpire: {
         type: Date
-    }
+    },
+    question: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Question"
+        }
+    ]
 })
 
 UserSchema.methods.generateJwtFromUser = function () {
