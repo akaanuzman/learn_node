@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const slugify = require("slugify")
+import mongoose from "mongoose"
+import slugify from "slugify"
 
 const QuesitonSchema = new mongoose.Schema({
     title: {
@@ -58,4 +58,5 @@ QuesitonSchema.methods.createSlugify = function () {
     })
 }
 
-module.exports = mongoose.model("Question", QuesitonSchema)
+const Question = mongoose.model("Question", QuesitonSchema)
+export default Question

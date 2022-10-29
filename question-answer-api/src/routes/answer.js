@@ -1,12 +1,12 @@
-const express = require("express")
-const { getAccessToRoute } = require("../middlewares/auth.middleware")
-const { checkAnswerExist } = require("../helpers/db/db.error.helpers")
-const {
+import express from "express"
+import { getAccessToRoute } from "../middlewares/auth.middleware.js"
+import { checkAnswerExist } from "../helpers/db/db.error.helpers.js"
+import {
     getAllAnswers, getAnswerById,
     addNewAnswerToQuestion, updateAnswer,
     deleteAnswer, favAnswer,
     unFavAnswer
-} = require("../controllers/answer.controller")
+} from "../controllers/answer.controller.js"
 const router = express.Router({ mergeParams: true })
 
 router.use(getAccessToRoute)
@@ -20,4 +20,4 @@ router.get("/:answerId/favAnswer", checkAnswerExist, favAnswer)
 router.get("/:answerId/unFavAnswer", checkAnswerExist, unFavAnswer)
 
 
-module.exports = router
+export default router

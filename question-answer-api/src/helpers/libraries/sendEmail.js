@@ -1,4 +1,4 @@
-const nodemailer = require("nodemailer")
+import nodemailer from "nodemailer"
 
 const sendMail = async (mailOptions) => {
     const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD } = process.env
@@ -16,4 +16,4 @@ const sendMail = async (mailOptions) => {
     console.log(`Message send: ${info.messageId}`)
 }
 
-module.exports = sendMail
+export default sendMail

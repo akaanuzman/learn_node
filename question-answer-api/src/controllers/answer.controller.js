@@ -1,7 +1,7 @@
-const Answer = require("../models/answer.model")
-const Question = require("../models/question.model")
-const CustomError = require("../helpers/error/CustomError")
-const asyncErrorHandler = require("express-async-handler")
+import Answer from "../models/answer.model.js"
+import Question from "../models/question.model.js"
+import CustomError from "../helpers/error/CustomError.js"
+import asyncErrorHandler from "express-async-handler"
 
 const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
@@ -97,7 +97,7 @@ const unFavAnswer = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
-module.exports = {
+export {
     getAllAnswers, getAnswerById,
     addNewAnswerToQuestion, updateAnswer,
     deleteAnswer, favAnswer,

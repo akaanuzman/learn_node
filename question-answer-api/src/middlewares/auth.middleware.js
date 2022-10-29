@@ -1,9 +1,12 @@
-const CustomError = require("../helpers/error/CustomError")
-const jwt = require("jsonwebtoken")
-const { isTokenIncluded, getAccessTokenFromHeader } = require("../helpers/auth/auth.helper")
-const asyncErrorHandler = require("express-async-handler")
-const User = require("../models/user.model")
-const Question = require("../models/question.model")
+import jwt from "jsonwebtoken"
+import asyncErrorHandler from "express-async-handler"
+import CustomError from "../helpers/error/CustomError.js"
+import User from "../models/user.model.js"
+import Question from "../models/question.model.js"
+import {
+    isTokenIncluded,
+    getAccessTokenFromHeader
+} from "../helpers/auth/auth.helper.js"
 
 const getAccessToRoute = (req, res, next) => {
     const unAuthorizedError = new CustomError("No token provided", 401)
@@ -48,4 +51,8 @@ const getQuestionOwnerAccess = asyncErrorHandler(async (req, res, next) => {
     next()
 })
 
-module.exports = { getAccessToRoute, getAdminAccess, getQuestionOwnerAccess }
+export {
+    getAccessToRoute,
+    getAdminAccess,
+    getQuestionOwnerAccess
+}

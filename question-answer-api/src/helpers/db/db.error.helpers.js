@@ -1,8 +1,8 @@
-const User = require("../../models/user.model")
-const Question = require("../../models/question.model")
-const Answer = require("../../models/answer.model")
-const asyncErrorHandler = require("express-async-handler")
-const CustomError = require("../../helpers/error/CustomError")
+import asyncErrorHandler from "express-async-handler"
+import User from "../../models/user.model.js"
+import Question from "../../models/question.model.js"
+import Answer from "../../models/answer.model.js"
+import CustomError from "../../helpers/error/CustomError.js"
 
 const checkUserExist = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
@@ -45,4 +45,4 @@ const checkAnswerExist = asyncErrorHandler(async (req, res, next) => {
     next()
 })
 
-module.exports = { checkUserExist, checkQuesitonExist, checkAnswerExist }
+export { checkUserExist, checkQuesitonExist, checkAnswerExist }

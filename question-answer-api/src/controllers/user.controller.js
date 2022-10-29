@@ -1,6 +1,6 @@
-const User = require("../models/user.model")
-const asyncErrorHandler = require("express-async-handler")
-const CustomError = require("../helpers/error/CustomError")
+
+import User from "../models/user.model.js"
+import asyncErrorHandler from "express-async-handler"
 
 const getAllUsers = asyncErrorHandler(async (req, res, next) => {
     const users = await User.find()
@@ -30,4 +30,4 @@ const editProfile = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
-module.exports = { getAllUsers, getUserById, editProfile }
+export { getAllUsers, getUserById, editProfile }

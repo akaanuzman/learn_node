@@ -1,8 +1,8 @@
-const mongoose = require("mongoose")
-const bcrypt = require('bcryptjs');
-const jwt = require("jsonwebtoken")
-const crypto = require("crypto")
-const Question = require("../models/question.model")
+import mongoose from "mongoose";
+import bcrypt from "bcryptjs"
+import jwt from "jsonwebtoken"
+import crypto from "crypto"
+import Question from "../models/question.model.js"
 
 const UserSchema = new mongoose.Schema({
     name: {
@@ -128,4 +128,6 @@ UserSchema.pre("validate", async function (next) {
     next()
 })
 
-module.exports = mongoose.model("User", UserSchema)
+const User = mongoose.model("User", UserSchema)
+
+export default User

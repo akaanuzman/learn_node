@@ -1,5 +1,5 @@
-const mongoose = require("mongoose")
-const Question = require("../models/question.model")
+import mongoose from "mongoose"
+import Question from "../models/question.model.js"
 
 const AnswerSchema = new mongoose.Schema({
     content: {
@@ -46,4 +46,6 @@ AnswerSchema.pre("save", async function (next) {
     }
 })
 
-module.exports = mongoose.model("Answer", AnswerSchema)
+const Answer = mongoose.model("Answer", AnswerSchema)
+
+export default Answer

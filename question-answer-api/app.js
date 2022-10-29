@@ -1,10 +1,14 @@
-const express = require("express")
-const dotenv = require("dotenv")
-const router = require("./src/routes/index")
-const connectDb = require("./src/helpers/db/db")
-const { errorHandler } = require("./src/middlewares/error.handler")
-const path = require("path")
+import express from "express"
+import dotenv from "dotenv"
+import path from "path"
+import { fileURLToPath } from 'url';
+import router from "./src/routes/index.js"
+import connectDb from "./src/helpers/db/db.js"
+import { errorHandler } from "./src/middlewares/error.handler.js"
+
 const app = express()
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config(
     {
@@ -20,7 +24,7 @@ app.use(express.json())
 // Router Middlewares
 app.use("/api", router)
 
-app.use(express.static(path.join(__dirname,"public")))
+app.use(express.static(path.join(__dirname, "public")))
 
 app.use(errorHandler)
 

@@ -1,5 +1,5 @@
-const CustomError = require("../error/CustomError")
-const bcrypt = require("bcryptjs")
+import bcrypt from "bcryptjs"
+import CustomError from "../error/CustomError.js"
 
 const validateUserInput = (email, pass, next) => {
     if (!email) {
@@ -15,4 +15,4 @@ const comparePassword = (pass, hashPass) => {
     return bcrypt.compareSync(pass, hashPass)
 }
 
-module.exports = { validateUserInput, comparePassword }
+export { validateUserInput, comparePassword }

@@ -1,14 +1,15 @@
-const express = require("express")
-const router = express.Router()
-const { getAccessToRoute, getQuestionOwnerAccess } = require("../middlewares/auth.middleware")
-const { checkQuesitonExist } = require("../helpers/db/db.error.helpers")
-const {
+import express from "express"
+import { getAccessToRoute, getQuestionOwnerAccess } from "../middlewares/auth.middleware.js"
+import { checkQuesitonExist } from "../helpers/db/db.error.helpers.js"
+import {
     getAllQuestions, getQuestion,
     addQuestion, updateQuestion,
     deleteQuestion, favQuestion,
     unFavQuestion
-} = require("../controllers/quesitons.controller")
-const answer = require("../routes/answer")
+} from "../controllers/quesitons.controller.js"
+import answer from "../routes/answer.js"
+
+const router = express.Router()
 
 router.use(getAccessToRoute)
 router.get("/allQuestions", getAllQuestions)
@@ -35,6 +36,6 @@ router.get("/unFavQuestion/:id",
         getQuestionOwnerAccess],
     unFavQuestion
 )
-router.use("/:id/answers",checkQuesitonExist,answer)
+router.use("/:id/answers", checkQuesitonExist, answer)
 
-module.exports = router
+export default router

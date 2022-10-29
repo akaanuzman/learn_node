@@ -1,6 +1,6 @@
-const multer = require("multer")
-const path = require("path")
-const CustomError = require("../helpers/error/CustomError")
+import multer from "multer"
+import path from "path"
+import CustomError from "../helpers/error/CustomError.js"
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -26,4 +26,4 @@ const fileFilter = (req, file, cb) => {
 
 const profileImageUpload = multer({ storage, fileFilter })
 
-module.exports = profileImageUpload
+export default profileImageUpload

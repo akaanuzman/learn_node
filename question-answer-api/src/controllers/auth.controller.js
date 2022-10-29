@@ -1,14 +1,13 @@
-const User = require("../models/user.model")
-const asyncErrorHandler = require("express-async-handler")
-const { validateUserInput, comparePassword } = require("../helpers/input/input.helper")
-const sendMail = require("../helpers/libraries/sendEmail")
-const CustomError = require("../helpers/error/CustomError")
+import asyncErrorHandler from "express-async-handler"
+import User from "../models/user.model.js";
+import CustomError from "../helpers/error/CustomError.js"
+import { validateUserInput, comparePassword } from "../helpers/input/input.helper.js";
+import sendMail from "../helpers/libraries/sendEmail.js";
 
 const register = asyncErrorHandler(async (req, res) => {
-
     const user = await User.create(req.body)
     if (!user) {
-        return next(new CustomError(err.message,400))
+        return next(new CustomError(err.message, 400))
     }
     const token = user.generateJwtFromUser()
     res.json({
@@ -129,7 +128,7 @@ const imageUpload = asyncErrorHandler(async (req, res, next) => {
     })
 })
 
-module.exports = {
+export {
     register, login,
     tokenControl, forgotPassword,
     resetPassword, imageUpload

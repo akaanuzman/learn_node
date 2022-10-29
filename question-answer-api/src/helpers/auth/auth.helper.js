@@ -11,4 +11,4 @@ const getAccessTokenFromHeader = (req) => {
     return token
 }
 
-module.exports = { isTokenIncluded, getAccessTokenFromHeader }
+export { isTokenIncluded, getAccessTokenFromHeader }

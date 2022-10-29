@@ -1,6 +1,5 @@
-const User = require("../models/user.model")
-const asyncErrorHandler = require("express-async-handler")
-const CustomError = require("../helpers/error/CustomError")
+import asyncErrorHandler from "express-async-handler"
+import User from "../models/user.model.js"
 
 const blockUser = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
@@ -29,4 +28,4 @@ const deleteUser = asyncErrorHandler(async (req, res, next) => {
         })
 })
 
-module.exports = { blockUser, deleteUser }
+export { blockUser, deleteUser }
