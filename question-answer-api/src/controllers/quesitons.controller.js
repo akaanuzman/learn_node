@@ -27,6 +27,7 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
     }
 
     const questions = await query
+    questions.sort((a, b) => b.createdAt - a.createdAt)
 
     return res.status(200)
         .json({
@@ -48,13 +49,13 @@ const addQuestion = asyncErrorHandler(async (req, res, next) => {
         ...params,
         user: req.user.id,
     })
-    const user = await User.findById({_id: req.user.id})
+    const user = await User.findById({ _id: req.user.id })
     user.question.push(question)
     await user.save()
-    console.log(user)
     res.status(200)
         .json({
             success: true,
+            message: "You added a question in successful!",
             question: question,
         })
 })
