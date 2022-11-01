@@ -1,4 +1,5 @@
 import Answer from "../models/answer.model.js"
+import User from "../models/user.model.js"
 import CustomError from "../helpers/error/CustomError.js"
 import asyncErrorHandler from "express-async-handler"
 
@@ -7,6 +8,8 @@ const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
 
     const answer = await Answer.find({ question: id })
     .populate("user").populate("fav").populate("question")
+
+    answer.sort((a,b) => b.createdAt - a.createdAt)
     res.status(200).json({
         success: true,
         answers: answer
@@ -31,9 +34,15 @@ const addNewAnswerToQuestion = asyncErrorHandler(async (req, res, next) => {
         question: id
     })
 
+    const user = await User.findById({_id: req.user.id})
+    user.answer.push(answer)
+
+    await user.save()
+
     res.status(200)
         .json({
             success: true,
+            message: "You added answer in successful!",
             answer: answer
         })
 })

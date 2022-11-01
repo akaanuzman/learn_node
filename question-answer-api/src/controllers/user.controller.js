@@ -12,10 +12,13 @@ const getAllUsers = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getUserById = asyncErrorHandler(async (req, res, next) => {
+    const user = await User.findById({ _id: req.params.id })
+        .populate("question")
+        .populate("answer")
     return res.status(200)
         .json({
             success: true,
-            user: await req.user.populate("question")
+            user: user
         })
 })
 

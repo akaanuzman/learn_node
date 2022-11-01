@@ -7,7 +7,13 @@ const errorHandler = (err, req, res, next) => {
         customError = new CustomError("Unexpected Syntax", 400)
     }
     if (err.name == "ValidationError") {
-        customError = new CustomError(err.message, 400)
+        if (err.message.includes("content") && err.message.includes("a content")) {
+            customError = new CustomError("Please provide a content.", 400)
+        } else if (err.message.includes("content")) {
+            customError = new CustomError("Please provide a title at least 10 characters.", 400)
+        } else {
+            customError = new CustomError(err.message, 400)
+        }
     }
     if (err.code == 11000) {
         // Duplicate Key error
