@@ -1,14 +1,12 @@
 import Answer from "../models/answer.model.js"
-import Question from "../models/question.model.js"
 import CustomError from "../helpers/error/CustomError.js"
 import asyncErrorHandler from "express-async-handler"
 
 const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
 
-    const question = await Question.findById({ _id: id })
-        .populate("answer")
-    const answer = question.answer
+    const answer = await Answer.find({ question: id })
+    .populate("user").populate("fav").populate("question")
     res.status(200).json({
         success: true,
         answers: answer
