@@ -21,7 +21,10 @@ const register = asyncErrorHandler(async (req, res) => {
 const login = asyncErrorHandler(async (req, res, next) => {
     const { email, password } = req.body
     validateUserInput(email, password, next)
-    const user = await User.findOne({ email }).select("+password")
+    const user = await User.findOne({ email })
+        .select("+password")
+        .populate("question")
+        .populate("answer")
     if (!user) {
         return next(new CustomError(
             "Invalid email.\nPlease check email and try again.", 400)
@@ -32,11 +35,12 @@ const login = asyncErrorHandler(async (req, res, next) => {
             "Invalid password.\nPlease check password and try again.", 400)
         )
     }
-    const token = user.generateJwtFromUser()
+    user.token = user.generateJwtFromUser()
+    await user.save()
     res.json({
         success: true,
         message: "You logged in successful.",
-        token: token,
+        token: user.token,
         body: user
     })
 })

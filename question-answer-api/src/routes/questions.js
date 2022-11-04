@@ -27,13 +27,11 @@ router.delete("/deleteQuestion/:id",
     deleteQuestion
 )
 router.get("/favQuestion/:id",
-    [checkQuesitonExist,
-        getQuestionOwnerAccess],
+    checkQuesitonExist,
     favQuestion
 )
 router.get("/unFavQuestion/:id",
-    [checkQuesitonExist,
-        getQuestionOwnerAccess],
+    checkQuesitonExist,
     unFavQuestion
 )
 router.use("/:id/answers", checkQuesitonExist, answer)

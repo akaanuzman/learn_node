@@ -80,7 +80,10 @@ const UserSchema = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "Answer"
         }
-    ]
+    ],
+    token: {
+        type: String
+    }
 })
 
 UserSchema.methods.generateJwtFromUser = function () {

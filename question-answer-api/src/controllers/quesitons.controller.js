@@ -36,10 +36,24 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getQuestion = asyncErrorHandler(async (req, res, next) => {
+    const question = await Question.findById({ _id: req.question.id }).populate(
+        {
+            path: "user",
+            select: "id name lastname question"
+        }
+    ).populate(
+        {
+            path: "answer",
+        }
+    ).populate(
+        {
+            path: "fav"
+        }
+    )
     return res.status(200)
         .json({
             success: true,
-            question: req.question
+            question: question
         })
 })
 
