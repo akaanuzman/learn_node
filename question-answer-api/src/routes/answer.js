@@ -12,7 +12,7 @@ const router = express.Router({ mergeParams: true })
 router.use(getAccessToRoute)
 
 router.get("/", getAllAnswers)
-router.post("/", getAccessToRoute, addNewAnswerToQuestion)
+router.post("/", addNewAnswerToQuestion)
 router.get("/:answerId", checkAnswerExist, getAnswerById)
 router.put("/:answerId", checkAnswerExist, updateAnswer)
 router.delete("/:answerId", checkAnswerExist, deleteAnswer)

@@ -31,7 +31,12 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getQuestion = asyncErrorHandler(async (req, res, next) => {
-    const question = await Question.findOne({ _id: req.question.id, isActive: true })
+    const question = await Question.findOne(
+        {
+            _id: req.question.id,
+            isActive: true
+        }
+    )
         .populate(
             {
                 path: "user",
@@ -46,11 +51,16 @@ const getQuestion = asyncErrorHandler(async (req, res, next) => {
                 path: "fav"
             }
         )
-    return res.status(200)
-        .json({
-            success: true,
-            question: question
-        })
+    if (question) {
+        return res.status(200)
+            .json({
+                success: true,
+                question: question
+            })
+    } else {
+        return next(new CustomError("This question was deleted."))
+    }
+
 })
 
 const addQuestion = asyncErrorHandler(async (req, res, next) => {
@@ -96,12 +106,18 @@ const updateQuestion = asyncErrorHandler(async (req, res, next) => {
 })
 
 const deleteQuestion = asyncErrorHandler(async (req, res, next) => {
+    const userId = req.user.id
+
     const question = req.question
     question.isActive = false
     question.answer = []
-    // kullanıcıdan da silinmesi lazım
-    await question.save()
+    const user = await User.findByIdAndUpdate(userId, {
+        "question": question,
+        "answer": question.answer
+    }, { new: true, runValidators: true })
+    ///MARK: kullanıcıdan da silinmesi lazım
 
+    await question.save()
     return res.status(200)
         .json({
             success: true,

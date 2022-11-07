@@ -2,18 +2,25 @@ import Answer from "../models/answer.model.js"
 import User from "../models/user.model.js"
 import CustomError from "../helpers/error/CustomError.js"
 import asyncErrorHandler from "express-async-handler"
+import Question from "../models/question.model.js"
 
 const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
 
-    const answer = await Answer.find({ question: id })
-    .populate("user").populate("fav").populate("question")
+    const question = await Question.findOne({ _id: id, isActive: true })
 
-    answer.sort((a,b) => b.createdAt - a.createdAt)
-    res.status(200).json({
-        success: true,
-        answers: answer
-    })
+    if (question) {
+        const answer = await Answer.find({ question: id })
+            .populate("user").populate("fav").populate("question")
+
+        answer.sort((a, b) => b.createdAt - a.createdAt)
+        res.status(200).json({
+            success: true,
+            answers: answer
+        })
+    } else {
+        return next(new CustomError("This question was deleted."))
+    }
 })
 
 const getAnswerById = asyncErrorHandler(async (req, res, next) => {
@@ -34,7 +41,7 @@ const addNewAnswerToQuestion = asyncErrorHandler(async (req, res, next) => {
         question: id
     })
 
-    const user = await User.findById({_id: req.user.id})
+    const user = await User.findById({ _id: req.user.id })
     user.answer.push(answer)
 
     await user.save()

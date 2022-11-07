@@ -16,7 +16,7 @@ const checkUserExist = asyncErrorHandler(async (req, res, next) => {
 
 const checkQuesitonExist = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
-    const question = await Question.findById({ _id: id,})
+    const question = await Question.findById({ _id: id, })
     if (!question) {
         return next(new CustomError("There is no such question with that id"), 400)
     }
@@ -27,22 +27,30 @@ const checkQuesitonExist = asyncErrorHandler(async (req, res, next) => {
 const checkAnswerExist = asyncErrorHandler(async (req, res, next) => {
     const { answerId } = req.params
     const questionId = req.question._id
-    const answer = await Answer.findOne({
-        _id: answerId,
-        question: questionId
-    }).populate({
-        path: "user",
-        select: "id name lastname "
-    })
-        .populate({
-            path: "question",
-            select: "id title subtitle"
+    const question = await Question.findOne(
+        { _id: questionId, isActive: true }
+    )
+    if (question) {
+        const answer = await Answer.findOne({
+            _id: answerId,
+            question: questionId
+        }).populate({
+            path: "user",
+            select: "id name lastname "
         })
-    if (!answer) {
-        return next(new CustomError("There is no such answer with that id"), 400)
+            .populate({
+                path: "question",
+                select: "id title subtitle"
+            })
+        if (!answer) {
+            return next(new CustomError("There is no such answer with that id"), 400)
+        }
+        req.answer = answer
+        next()
+    } else {
+        return next(new CustomError("This question was deleted."))
     }
-    req.answer = answer
-    next()
+
 })
 
 export { checkUserExist, checkQuesitonExist, checkAnswerExist }
