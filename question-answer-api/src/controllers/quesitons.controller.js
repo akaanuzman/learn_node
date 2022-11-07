@@ -4,7 +4,7 @@ import CustomError from "../helpers/error/CustomError.js"
 import asyncErrorHandler from "express-async-handler"
 
 const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
-    let query = Question.find()
+    let query = Question.find({ isActive: true })
         .populate(
             {
                 path: "user",
@@ -19,12 +19,7 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
                 path: "fav"
             }
         )
-    if (req.query.search) {
-        const searchObject = {}
-        const regex = new RegExp(req.query.search, "i")
-        searchObject["title"] = regex
-        query = query.where(searchObject)
-    }
+
 
     const questions = await query
     questions.sort((a, b) => b.createdAt - a.createdAt)
@@ -36,20 +31,21 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getQuestion = asyncErrorHandler(async (req, res, next) => {
-    const question = await Question.findById({ _id: req.question.id }).populate(
-        {
-            path: "user",
-            select: "id name lastname question"
-        }
-    ).populate(
-        {
-            path: "answer",
-        }
-    ).populate(
-        {
-            path: "fav"
-        }
-    )
+    const question = await Question.findOne({ _id: req.question.id, isActive: true })
+        .populate(
+            {
+                path: "user",
+                select: "id name lastname question"
+            }
+        ).populate(
+            {
+                path: "answer",
+            }
+        ).populate(
+            {
+                path: "fav"
+            }
+        )
     return res.status(200)
         .json({
             success: true,
@@ -102,7 +98,8 @@ const updateQuestion = asyncErrorHandler(async (req, res, next) => {
 const deleteQuestion = asyncErrorHandler(async (req, res, next) => {
     const question = req.question
     question.isActive = false
-
+    question.answer = []
+    // kullanıcıdan da silinmesi lazım
     await question.save()
 
     return res.status(200)

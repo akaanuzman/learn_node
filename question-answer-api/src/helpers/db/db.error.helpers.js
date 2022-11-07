@@ -16,7 +16,7 @@ const checkUserExist = asyncErrorHandler(async (req, res, next) => {
 
 const checkQuesitonExist = asyncErrorHandler(async (req, res, next) => {
     const { id } = req.params
-    const question = await Question.findById({ _id: id })
+    const question = await Question.findById({ _id: id,})
     if (!question) {
         return next(new CustomError("There is no such question with that id"), 400)
     }
