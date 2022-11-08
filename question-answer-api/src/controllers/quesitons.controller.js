@@ -2,6 +2,7 @@ import Question from "../models/question.model.js"
 import User from "../models/user.model.js"
 import CustomError from "../helpers/error/CustomError.js"
 import asyncErrorHandler from "express-async-handler"
+import Answer from "../models/answer.model.js"
 
 const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
     let query = Question.find({ isActive: true })
@@ -13,6 +14,7 @@ const getAllQuestions = asyncErrorHandler(async (req, res, next) => {
         ).populate(
             {
                 path: "answer",
+                match: { isActive: true }
             }
         ).populate(
             {
@@ -45,6 +47,7 @@ const getQuestion = asyncErrorHandler(async (req, res, next) => {
         ).populate(
             {
                 path: "answer",
+                match: { isActive: true }
             }
         ).populate(
             {
@@ -110,12 +113,9 @@ const deleteQuestion = asyncErrorHandler(async (req, res, next) => {
 
     const question = req.question
     question.isActive = false
-    question.answer = []
-    const user = await User.findByIdAndUpdate(userId, {
-        "question": question,
-        "answer": question.answer
-    }, { new: true, runValidators: true })
-    ///MARK: kullanıcıdan da silinmesi lazım
+    question.answer.forEach(async e => {
+        await Answer.findByIdAndUpdate(e, { isActive: false })
+    });
 
     await question.save()
     return res.status(200)

@@ -10,7 +10,7 @@ const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
     const question = await Question.findOne({ _id: id, isActive: true })
 
     if (question) {
-        const answer = await Answer.find({ question: id })
+        const answer = await Answer.find({ question: id, isActive: true })
             .populate("user").populate("fav").populate("question")
 
         answer.sort((a, b) => b.createdAt - a.createdAt)
@@ -24,12 +24,18 @@ const getAllAnswers = asyncErrorHandler(async (req, res, next) => {
 })
 
 const getAnswerById = asyncErrorHandler(async (req, res, next) => {
-    const answer = req.answer
+    const { answerId } = req.params
+    const answer = await Answer.findOne({ _id: answerId, isActive: true })
 
-    res.status(200).json({
-        success: true,
-        answer: answer
-    })
+    if (answer) {
+        res.status(200).json({
+            success: true,
+            answer: answer
+        })
+    } else {
+        return next(new CustomError("This answer was deleted."))
+    }
+
 })
 
 const addNewAnswerToQuestion = asyncErrorHandler(async (req, res, next) => {

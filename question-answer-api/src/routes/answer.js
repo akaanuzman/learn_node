@@ -13,8 +13,8 @@ router.use(getAccessToRoute)
 
 router.get("/", getAllAnswers)
 router.post("/", addNewAnswerToQuestion)
-router.get("/:answerId", checkAnswerExist, getAnswerById)
-router.put("/:answerId", checkAnswerExist, updateAnswer)
+router.get("/:answerId", checkAnswerExist, getAnswerById),
+    router.put("/:answerId", checkAnswerExist, updateAnswer)
 router.delete("/:answerId", checkAnswerExist, deleteAnswer)
 router.get("/:answerId/favAnswer", checkAnswerExist, favAnswer)
 router.get("/:answerId/unFavAnswer", checkAnswerExist, unFavAnswer)

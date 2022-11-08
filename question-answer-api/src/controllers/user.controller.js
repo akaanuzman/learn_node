@@ -13,8 +13,18 @@ const getAllUsers = asyncErrorHandler(async (req, res, next) => {
 
 const getUserById = asyncErrorHandler(async (req, res, next) => {
     const user = await User.findById({ _id: req.params.id })
-        .populate("question")
-        .populate("answer")
+        .populate({
+            path: "question",
+            match: { isActive: true },
+            populate: {
+                path: "answer",
+                match: { isActive: true }
+            }
+        })
+        .populate({
+            path: "answer",
+            match: { isActive: true }
+        })
     return res.status(200)
         .json({
             success: true,
