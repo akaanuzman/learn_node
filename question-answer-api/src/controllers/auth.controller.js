@@ -60,12 +60,10 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
     if (!user) {
         return next(new CustomError("There is no user with that email", 400))
     }
-    const resetPasswordToken = user.getResetPasswordTokenFromUser()
-    await user.save()
-    const resetPasswordUrl = `http://127.0.0.1:3030/api/auth/resetPassword?resetPasswordToken=${resetPasswordToken}`
+    const token = Math.floor(100000 + Math.random() * 900000)
     const emailTemplate = `
     <h3> Reset Your Password </h3>
-    <p> This <a href='${resetPasswordUrl}' target = '_blank'> link </a> will expire in 1 hour. </p>
+    <p> This is your reset password token : ${token}. </p>
     `
 
     try {
@@ -75,17 +73,18 @@ const forgotPassword = asyncErrorHandler(async (req, res, next) => {
             subject: "Reset ur password.",
             html: emailTemplate
         })
+        user.resetPasswordToken = token
+        await user.save()
         res.status(200).json(
             {
                 success: true,
-                message: "Token sent to ur email"
+                message: "Password reset successful. A 6-digit password reset token has been sent to your email.",
+                token: token
             }
         )
     } catch (err) {
         user.resetPasswordToken = undefined
-        user.resetPasswordExpire = undefined
         await user.save()
-
         return next(new CustomError("Email could not be sent", 500))
     }
 
@@ -101,22 +100,23 @@ const resetPassword = asyncErrorHandler(async (req, res, next) => {
     }
     let user = await User.findOne({
         resetPasswordToken: resetPasswordToken,
-        resetPasswordExpire: { $gt: Date.now() }
     })
+    if (!user) {
+        return next(new CustomError("Please provide a valid token", 400))
+    } else {
+        user.password = password
+        await user.save()
 
-    user.password = password
-    user.resetPasswordExpire = undefined
-    user.resetPasswordToken = undefined
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Reset password process successful!",
+                user: user
+            }
+        )
+    }
 
-    await user.save()
 
-    return res.status(200).json(
-        {
-            success: true,
-            message: "Reset password process successful",
-            user: user
-        }
-    )
 })
 
 const imageUpload = asyncErrorHandler(async (req, res, next) => {
